@@ -1,9 +1,5 @@
+use std::env;
 use std::fs::{self, DirEntry};
-use std::{
-    env,
-    io::{self, Write},
-    path::Path,
-};
 fn main() {
     let args: Vec<String> = env::args().collect();
     if args[1] == "rfe" {
@@ -16,17 +12,20 @@ fn main() {
 fn replace_file_extension() {
     let mut file_names: Vec<DirEntry> = Vec::new();
     let path = std::env::current_dir().unwrap();
-    println!("{}", path.display());
-    println!("{}", Path::new(&path).exists());
+    //println!("{}", path.display());
+    // println!("{}", Path::new(&path).exists());
     let mut counter = 0;
     for entry in fs::read_dir(path).unwrap() {
         // println!("{}", entry.unwrap().path().display());
         if entry.as_ref().unwrap().path().is_file() {
-            println!("{}", counter);
-            counter += 1;
+            // println!("{}", entry.as_ref().unwrap().path().display());
+            file_names.push(entry.unwrap());
         } else {
             continue;
         }
+    }
+    for i in file_names {
+        println!("{}", i.path().file_name().unwrap().to_str().unwrap());
     }
 }
 
