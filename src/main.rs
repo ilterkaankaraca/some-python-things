@@ -38,4 +38,3 @@ fn replace_file_extension() {
 
 fn only_keep_selected_file_type() {
     println!("only_keep_selected_file_type");
-}
