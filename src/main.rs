@@ -1,4 +1,4 @@
-use std::env::{self, args};
+use std::env::{self};
 use std::fs::{self, DirEntry};
 fn main() {
     let args: Vec<String> = env::args().collect();
@@ -38,7 +38,6 @@ fn replace_file_extension(file_extension: &str) {
 }
 
 fn only_keep_selected_file_type(file_extension: &str) {
-    let mut file_names: Vec<DirEntry> = Vec::new();
     let path = std::env::current_dir().unwrap();
 
     for entry in fs::read_dir(path).unwrap() {
