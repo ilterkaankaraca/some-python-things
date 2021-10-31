@@ -1,11 +1,11 @@
-use std::env;
+use std::env::{self, args};
 use std::fs::{self, DirEntry};
 fn main() {
     let args: Vec<String> = env::args().collect();
-    if args[1] == "rfe" {
+    if args[1] == "replace" {
         replace_file_extension(&args[2]);
-    } else if args[1] == "oksft" {
-        only_keep_selected_file_type();
+    } else if args[1] == "only_keep" {
+        only_keep_selected_file_type(&args[2]);
     }
 }
 
@@ -32,11 +32,35 @@ fn replace_file_extension(file_extension: &str) {
                 i.path().file_stem().unwrap().to_str().unwrap(),
                 file_extension.trim().to_string()
             ),
-        ).ok();
+        )
+        .ok();
     }
 }
 
+fn only_keep_selected_file_type(file_extension: &str) {
+    let mut file_names: Vec<DirEntry> = Vec::new();
+    let path = std::env::current_dir().unwrap();
 
-fn only_keep_selected_file_type() {
-    println!("only_keep_selected_file_type");
+    for entry in fs::read_dir(path).unwrap() {
+        // println!("{}", entry.unwrap().path().display());
+        if entry.as_ref().unwrap().path().is_file() {
+            if entry
+                .as_ref()
+                .unwrap()
+                .path()
+                .extension()
+                .unwrap()
+                .to_str()
+                .unwrap()
+                != file_extension
+            {
+                // println!("{}", entry.as_ref().unwrap().path().display());
+                fs::remove_file(entry.unwrap().path()).unwrap();
+            } else {
+                continue;
+            }
+        } else {
+            continue;
+        }
+    }
 }
