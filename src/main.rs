@@ -12,12 +12,8 @@ fn main() {
 fn replace_file_extension(file_extension: &str) {
     let mut file_names: Vec<DirEntry> = Vec::new();
     let path = std::env::current_dir().unwrap();
-    //println!("{}", path.display());
-    // println!("{}", Path::new(&path).exists());
     for entry in fs::read_dir(path).unwrap() {
-        // println!("{}", entry.unwrap().path().display());
         if entry.as_ref().unwrap().path().is_file() {
-            // println!("{}", entry.as_ref().unwrap().path().display());
             file_names.push(entry.unwrap());
         } else {
             continue;
@@ -39,9 +35,7 @@ fn replace_file_extension(file_extension: &str) {
 
 fn only_keep_selected_file_type(file_extension: &str) {
     let path = std::env::current_dir().unwrap();
-
     for entry in fs::read_dir(path).unwrap() {
-        // println!("{}", entry.unwrap().path().display());
         if entry.as_ref().unwrap().path().is_file() {
             if entry
                 .as_ref()
@@ -53,7 +47,6 @@ fn only_keep_selected_file_type(file_extension: &str) {
                 .unwrap()
                 != file_extension
             {
-                // println!("{}", entry.as_ref().unwrap().path().display());
                 fs::remove_file(entry.unwrap().path()).unwrap();
             } else {
                 continue;
